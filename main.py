@@ -1,13 +1,17 @@
 from bs4 import BeautifulSoup
 import tkinter as tk
 
+# Custom function import
 from infoRequest import get_panchang_html
 from infoRequest import extract_panchang_block
 from panchangWidget import panchang_window
 
 def main():
+    # My source of information
     url = "https://www.drikpanchang.com/?geoname-id=1277333"
     html_content = get_panchang_html(url)
+    
+    # Extract the required information
     if html_content :
         tag = 'div'
         maasa_class_name = 'dpPHeaderLeftTitle'
@@ -22,8 +26,7 @@ def main():
             print("Sorry !")
     else :
         print("Failure !")
-    
+    panchang_window()
 
 if __name__ == "__main__":
-    panchang_window()
     main()

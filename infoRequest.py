@@ -8,6 +8,7 @@ def get_panchang_html(url) :
     else :
         return None
 
+# Function to parse the HTML and get the required contents
 def extract_panchang_block(html, tag, class_name) :
     soup = BeautifulSoup(html, 'html.parser')
     if class_name:
