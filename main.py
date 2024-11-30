@@ -5,6 +5,7 @@ import tkinter as tk
 from infoRequest import get_panchang_html
 from infoRequest import extract_panchang_block
 from panchangWidget import panchang_window
+from extractor import info_extract
 
 def main():
     # My source of information
@@ -20,8 +21,7 @@ def main():
         thithi = extract_panchang_block(html_content, tag, class_name=thithi_class_name)
         if maasa :
             print("Got the Thithi !!")
-            print(maasa)
-            print(thithi)
+            info_extract(maasa, thithi)
         else :
             print("Sorry !")
     else :
