@@ -1,6 +1,6 @@
 # Panchang
 
-A Windows widget to display Hindu panchang everyday. 
+A Windows widget to display Thithi everyday. 
 
 Project is currently runniong on Jugaad.
 
