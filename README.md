@@ -2,6 +2,6 @@
 
 A widget to display Thithi everyday. 
 
-Project is currently runniong on Jugaad.
+Project is currently designed with "Jugaad".
 
 Stay Tuned !!
