@@ -21,12 +21,12 @@ def main():
         thithi = extract_panchang_block(html_content, tag, class_name=thithi_class_name)
         if maasa :
             print("Got the Thithi !!")
-            info_extract(maasa, thithi)
+            panchang_object = info_extract(maasa, thithi)
         else :
             print("Sorry !")
     else :
         print("Failure !")
-    panchang_window()
+    panchang_window(panchang_object)
 
 if __name__ == "__main__":
     main()
