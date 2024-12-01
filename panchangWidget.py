@@ -8,20 +8,31 @@ root.overrideredirect(False)
 # close_icon = tk.PhotoImage(file='./Assets/x_icon_2.png')
 # minimize_icon = tk.PhotoImage(file='./Assets/minimize_icon_background.png')
 
-frame = tk.Frame(root)
-frame.pack(pady=20)
+# frame = tk.Frame(root)
+# frame.pack(pady=20)
 
 def panchang_window(panchang_object) :
     root.title("Panchang")
     # root.overrideredirect(True)
     # root.wm_attributes("-topmost", True)
 
-    main_label = tk.Label(frame, text="Hindu Panchang", font=("Arial", 15))
-    main_label.pack(padx=10, pady=10)
+    main_label = tk.Label(root, text="Hindu Panchang", font=("Arial", 15))
+    main_label.grid(row=0, column=0, padx=10, pady=10)
     panchang_object.printPanchangInfo()
     label_texts = [f"MAASA : {panchang_object.maasa}", f"THITHI : {panchang_object.thithi}", f"PAKSHA : {panchang_object.paksha}", f"DAY OF THE MONTH : {panchang_object.dayOfMonth}"]
-    for text in label_texts :
-        label = tk.Label(frame, text=text)
-        label.pack(padx=5, pady=5)
+    # for text in label_texts :
+    #     label = tk.Label(frame, text=text)
+    #     label.pack(padx=5, pady=5)
+
+    maasa_label = tk.Label(root, text = label_texts[0])
+    thithi_label = tk.Label(root, text=label_texts[1])
+    paksha_label = tk.Label(root, text=label_texts[2])
+    day_of_the_month_label = tk.Label(root, text=label_texts[3])
+
+    maasa_label.grid(row=1, column=0, padx=5, pady=5, sticky=tk.W)
+    day_of_the_month_label.grid(row=1, column=1,padx=5, pady=5)
+
+    thithi_label.grid(row=2, column=0, padx=5, pady=5, sticky=tk.W)
+    paksha_label.grid(row=2, column=1, padx=5, pady=5)
 
     root.mainloop()
