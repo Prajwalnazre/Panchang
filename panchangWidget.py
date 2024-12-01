@@ -1,9 +1,12 @@
 import tkinter as tk
+from datetime import date
 
 root = tk.Tk()
 # root.geometry('300x200')
 root.resizable(False, False)
 root.overrideredirect(False)
+
+today = date.today()
 
 # close_icon = tk.PhotoImage(file='./Assets/x_icon_2.png')
 # minimize_icon = tk.PhotoImage(file='./Assets/minimize_icon_background.png')
@@ -16,8 +19,8 @@ def panchang_window(panchang_object) :
     # root.overrideredirect(True)
     # root.wm_attributes("-topmost", True)
 
-    main_label = tk.Label(root, text="Hindu Panchang", font=("Arial", 15))
-    main_label.grid(row=0, columnspan=2, padx=10, pady=10, sticky="nsew")
+    main_label = tk.Label(root, text=f"Today - {today.strftime('%B %d, %Y')}", font=("Arial", 12))
+    main_label.grid(row=0, columnspan=2, padx=10, pady=5, sticky="nsew")
     panchang_object.printPanchangInfo()
     label_texts = [
         f"MAASA : {panchang_object.maasa}",
