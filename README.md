@@ -27,12 +27,12 @@ Stay Tuned !!
   ```bash
   source panchang/bin/activate 
 
-3. Install dependencies :
+4. Install dependencies :
 
    ```bash
    pip install -r requirements.txt
 
-4. Run the project :
+5. Run the project :
 
    ```bash
    python main.py
