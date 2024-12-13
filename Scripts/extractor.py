@@ -1,4 +1,4 @@
-from panchang import PanchangObject
+from panchangClass import PanchangObject
 
 def info_extract(maasa, thithi) :
     comma_index = maasa.index(",")
