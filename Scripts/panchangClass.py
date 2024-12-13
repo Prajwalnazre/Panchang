@@ -1,3 +1,9 @@
+'''
+Class :
+>> PanchangObject
+- Used in panchanWidget.py
+'''
+
 class PanchangObject :
     thithi = ''
     maasa = ''

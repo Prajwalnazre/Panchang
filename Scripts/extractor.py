@@ -1,5 +1,13 @@
+'''
+Functions :
+>> info_extract(maasa, thithi) 
+- Extract the thithi information from HTML content and return the panchang object
+- Function used in main.py
+'''
+
 from panchangClass import PanchangObject
 
+# Extract the thithi information from HTML content and return the panchang object
 def info_extract(maasa, thithi) :
     comma_index = maasa.index(",")
     maasa_string = maasa[comma_index+2:]

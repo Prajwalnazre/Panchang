@@ -1,6 +1,17 @@
+'''
+Functions :
+>> get_panchang_html(url)
+- HTML Response of the complete page
+- Used in main.py
+>> extract_panchang_block(html, tag, class_name)
+- Function to parse the HTML and get the required contents
+- Used in main.py
+'''
+
 from bs4 import BeautifulSoup
 import requests
 
+# HTML Response of the complete page
 def get_panchang_html(url) :
     response = requests.get(url)
     if response.status_code == 200 :

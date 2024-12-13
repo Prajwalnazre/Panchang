@@ -1,3 +1,10 @@
+'''
+Functions :
+>> panchang_window(panchang_object)
+- Create UI using Tkinter
+- Used in main.py
+'''
+
 import tkinter as tk
 from datetime import date
 from tkinter.font import Font
