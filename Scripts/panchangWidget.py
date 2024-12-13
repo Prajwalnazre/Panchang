@@ -42,10 +42,14 @@ def panchang_window(panchang_object) :
     button_frame = tk.Frame(root, bg="#fdb563")
     button_frame.grid(row=0, column=0, columnspan=2,  sticky="ew", padx=0, pady=0)
 
-    minimize_button = ttk.Button(button_frame, text="_", command=minimize_window, width=5)
+    # minimize_button = ttk.Button(button_frame, text="_", command=minimize_window, width=4, style="Custom.TButton")
+    
+    minimize_button = tk.Button(button_frame, text="__", command=minimize_window, width=4, bg="#fdb563", bd=0, highlightthickness=0)
     minimize_button.pack(side=tk.RIGHT, padx=5)
 
-    close_button = ttk.Button(button_frame, text="x", command=close_window, width=4)
+    # close_button = ttk.Button(button_frame, text="x", command=close_window, width=4, style="Custom.TButton")
+    
+    close_button = tk.Button(button_frame, text="x", command=close_window, width=4, bg="#fdb563", bd=0, highlightthickness=0, font='Helvectica')
     close_button.pack(side=tk.RIGHT, padx=0)
 
     main_label = tk.Label(root, bg = "lightyellow", text=f"TODAY - {today_upper_case.upper()}", font=final_font)
