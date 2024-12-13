@@ -13,7 +13,9 @@ from PIL import ImageFont
 root = tk.Tk()
 # root.geometry('300x200')
 root.resizable(False, False)
-root.overrideredirect(False)
+
+# Remove the default close button
+root.overrideredirect(False) 
 
 today = date.today()
 akasha_font_path = 'AkashaRegular-Rprn6.ttf'
@@ -60,3 +62,9 @@ def panchang_window(panchang_object) :
     root.grid_columnconfigure(1, weight=1)
 
     root.mainloop()
+
+def minimize_window() :
+    root.iconify()
+
+def close_window() :
+    root.destroy()
