@@ -6,6 +6,7 @@ Functions :
 '''
 
 import tkinter as tk
+from tkinter import ttk
 from datetime import date
 from tkinter.font import Font
 from PIL import ImageFont
@@ -36,9 +37,19 @@ def panchang_window(panchang_object) :
     # root.wm_attributes("-topmost", True)
     root.configure(bg="#fdb563")
     today_upper_case = str(today.strftime('%B %d, %Y'))
-    print(akasha_font)
+    # print(akasha_font)
+
+    button_frame = tk.Frame(root, bg="orange")
+    button_frame.grid(row=0, columnspan=2, sticky="ne", padx=5, pady=5)
+
+    minimize_button = ttk.Button(button_frame, text="_", command=minimize_window)
+    minimize_button.pack(side=tk.RIGHT, padx=10)
+
+    close_button = ttk.Button(button_frame, text="X", command=close_window)
+    close_button.pack(side=tk.RIGHT, padx=5)
+
     main_label = tk.Label(root, bg = "lightyellow", text=f"TODAY - {today_upper_case.upper()}", font=final_font)
-    main_label.grid(row=0, columnspan=2, padx=10, pady=8, sticky="nsew")
+    main_label.grid(row=1, columnspan=2, padx=10, pady=8, sticky="nsew")
     panchang_object.printPanchangInfo()
     label_texts = [
         f"MAASA : {panchang_object.maasa}",
@@ -52,12 +63,16 @@ def panchang_window(panchang_object) :
     paksha_label = tk.Label(root, text=label_texts[2], bg="#fdb563", font=final_font)
     day_of_the_month_label = tk.Label(root, text=label_texts[3], bg="#fdb563", font=final_font)
 
-    maasa_label.grid(row=1, column=0, padx=10, pady=5, sticky=tk.W)
-    day_of_the_month_label.grid(row=1, column=1,padx=10, pady=5, sticky=tk.W)
-    thithi_label.grid(row=2, column=0, padx=10, pady=10, sticky=tk.W)
-    paksha_label.grid(row=2, column=1, padx=10, pady=10, sticky=tk.W)
+    maasa_label.grid(row=2, column=0, padx=10, pady=5, sticky=tk.W)
+    day_of_the_month_label.grid(row=2, column=1,padx=10, pady=5, sticky=tk.W)
+    thithi_label.grid(row=3, column=0, padx=10, pady=10, sticky=tk.W)
+    paksha_label.grid(row=3, column=1, padx=10, pady=10, sticky=tk.W)
 
     root.grid_rowconfigure(0, weight=1)
+    root.grid_rowconfigure(0, weight=2)
+    root.grid_rowconfigure(0, weight=2)
+    root.grid_rowconfigure(0, weight=2)
+
     root.grid_columnconfigure(0, weight=1)
     root.grid_columnconfigure(1, weight=1)
 
