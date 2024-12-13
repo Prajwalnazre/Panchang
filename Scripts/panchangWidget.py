@@ -39,14 +39,14 @@ def panchang_window(panchang_object) :
     today_upper_case = str(today.strftime('%B %d, %Y'))
     # print(akasha_font)
 
-    button_frame = tk.Frame(root, bg="orange")
-    button_frame.grid(row=0, columnspan=2, sticky="ne", padx=5, pady=5)
+    button_frame = tk.Frame(root, bg="#fdb563")
+    button_frame.grid(row=0, column=0, columnspan=2,  sticky="ew", padx=0, pady=0)
 
-    minimize_button = ttk.Button(button_frame, text="_", command=minimize_window)
-    minimize_button.pack(side=tk.RIGHT, padx=10)
+    minimize_button = ttk.Button(button_frame, text="_", command=minimize_window, width=5)
+    minimize_button.pack(side=tk.RIGHT, padx=5)
 
-    close_button = ttk.Button(button_frame, text="X", command=close_window)
-    close_button.pack(side=tk.RIGHT, padx=5)
+    close_button = ttk.Button(button_frame, text="x", command=close_window, width=4)
+    close_button.pack(side=tk.RIGHT, padx=0)
 
     main_label = tk.Label(root, bg = "lightyellow", text=f"TODAY - {today_upper_case.upper()}", font=final_font)
     main_label.grid(row=1, columnspan=2, padx=10, pady=8, sticky="nsew")
@@ -65,13 +65,13 @@ def panchang_window(panchang_object) :
 
     maasa_label.grid(row=2, column=0, padx=10, pady=5, sticky=tk.W)
     day_of_the_month_label.grid(row=2, column=1,padx=10, pady=5, sticky=tk.W)
-    thithi_label.grid(row=3, column=0, padx=10, pady=10, sticky=tk.W)
-    paksha_label.grid(row=3, column=1, padx=10, pady=10, sticky=tk.W)
+    thithi_label.grid(row=3, column=0, padx=10, pady=5, sticky=tk.W)
+    paksha_label.grid(row=3, column=1, padx=10, pady=5, sticky=tk.W)
 
-    root.grid_rowconfigure(0, weight=1)
-    root.grid_rowconfigure(0, weight=2)
-    root.grid_rowconfigure(0, weight=2)
-    root.grid_rowconfigure(0, weight=2)
+    root.grid_rowconfigure(0, weight=0, minsize=5)
+    root.grid_rowconfigure(1, weight=3)
+    root.grid_rowconfigure(2, weight=3)
+    root.grid_rowconfigure(3, weight=3)
 
     root.grid_columnconfigure(0, weight=1)
     root.grid_columnconfigure(1, weight=1)
