@@ -10,6 +10,7 @@ from tkinter import ttk
 from datetime import date
 from tkinter.font import Font
 from PIL import ImageFont
+from PIL import Image, ImageTk
 
 root = tk.Tk()
 # root.geometry('300x200')
@@ -31,6 +32,12 @@ final_font = akasha_font
 # frame = tk.Frame(root)
 # frame.pack(pady=20)
 
+x_icon_image = Image.open("../Assets/x_icon_compressed.png")
+x_icon_photo = ImageTk.PhotoImage(x_icon_image)
+
+minimize_icon_image = Image.open("../Assets/minimize_icon_compressed.png")
+minimize_icon_photo = ImageTk.PhotoImage(minimize_icon_image)
+
 def panchang_window(panchang_object) :
     root.title("Panchang")
     # root.overrideredirect(True)
@@ -44,13 +51,37 @@ def panchang_window(panchang_object) :
 
     # minimize_button = ttk.Button(button_frame, text="_", command=minimize_window, width=4, style="Custom.TButton")
     
-    minimize_button = tk.Button(button_frame, text="__", command=minimize_window, width=4, bg="#fdb563", bd=0, highlightthickness=0)
+    close_button = tk.Button(
+        button_frame,
+        # height=2,
+        # text="x",
+        image=x_icon_photo, 
+        command=close_window, 
+        # width=4, 
+        bg="#fdb563", 
+        bd=0, 
+        highlightthickness=1, 
+        # font='Helvectica'
+        )
+    close_button.pack(side=tk.RIGHT, padx=5)
+
+    minimize_button = tk.Button(
+        button_frame, 
+        # text="-", 
+        image=minimize_icon_photo,
+        command=minimize_window, 
+        # width=4, 
+        bg="#fdb563", 
+        bd=0, 
+        # height=2,
+        highlightthickness=1,
+        # font='Helvectica'
+        )
     minimize_button.pack(side=tk.RIGHT, padx=5)
 
     # close_button = ttk.Button(button_frame, text="x", command=close_window, width=4, style="Custom.TButton")
     
-    close_button = tk.Button(button_frame, text="x", command=close_window, width=4, bg="#fdb563", bd=0, highlightthickness=0, font='Helvectica')
-    close_button.pack(side=tk.RIGHT, padx=0)
+    
 
     main_label = tk.Label(root, bg = "lightyellow", text=f"TODAY - {today_upper_case.upper()}", font=final_font)
     main_label.grid(row=1, columnspan=2, padx=10, pady=8, sticky="nsew")
