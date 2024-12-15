@@ -11,6 +11,7 @@ from datetime import date
 from tkinter.font import Font
 from PIL import ImageFont
 from PIL import Image, ImageTk
+import time
 
 root = tk.Tk()
 
@@ -65,19 +66,24 @@ def panchang_window(panchang_object) :
         button_frame,
         image=x_icon_photo, 
         command=close_window, 
-        # width=4, 
         bg="#fdb563", 
         bd=0, 
-        highlightthickness=1, 
-        # font='Helvectica'
+        highlightthickness=1
         )
     close_button.pack(side=tk.RIGHT, padx=5)
 
     maximize_button = tk.Button(
         button_frame, 
-        # text="-", 
         image=maximize_icon_photo,
-        command=lambda: maximize_window(main_label, maasa_label, thithi_label, paksha_label, day_of_the_month_label, maximize_button, minimize_button), 
+        command=lambda: maximize_window(
+            main_label, 
+            maasa_label, 
+            thithi_label, 
+            paksha_label, 
+            day_of_the_month_label, 
+            maximize_button, 
+            minimize_button
+            ), 
         # width=4, 
         bg="#fdb563", 
         bd=0, 
@@ -119,10 +125,10 @@ def panchang_window(panchang_object) :
 
     # root.bind("<Unmap>", restore_window)
 
-    main_label.bind("<Enter>", lambda event: main_label_enter(event, button_frame))
-    main_label.bind("<Leave>", lambda event: main_label_leave(event, button_frame))
-    button_frame.bind("<Enter>", lambda event: main_label_enter(event, button_frame))
-    button_frame.bind("<Leave>", lambda event: main_label_leave(event, button_frame))
+    main_label.bind("<Enter>", lambda event: top_area_enter(event, button_frame))
+    main_label.bind("<Leave>", lambda event: top_area_leave(event, button_frame))
+    button_frame.bind("<Enter>", lambda event: top_area_enter(event, button_frame))
+    button_frame.bind("<Leave>", lambda event: top_area_leave(event, button_frame))
     button_frame.bind("<Button-1>", start_move_widget)
     button_frame.bind("<B1-Motion>", stop_move_widget)
 
@@ -164,14 +170,31 @@ def close_window() :
 #     root.overrideredirect(True)
 #     root.lift()
     
-def main_label_enter(event, button_frame) :
+def top_area_enter(event, button_frame) :
     button_frame.hover = False
     button_frame.grid(row=0, column=0, columnspan=2,  sticky="ew", padx=0, pady=0)
+    if hasattr(button_frame, 'after_id') :
+        root.after_cancel(button_frame.after_id)
 
-def main_label_leave(event, button_frame) :
+def top_area_leave(event, button_frame) :
     button_frame.hover = True
+    
+    if hasattr(button_frame, 'after_id') :
+        root.after_cancel(button_frame.after_id)
+
     delay = 10000
-    root.after(delay, lambda: remove_button_frame(button_frame))
+    start_time = time.time()
+    print(start_time)
+    print("Leaving area")
+
+    button_frame.after_id = root.after(delay, lambda : check_and_remove_button_frame(button_frame))
+
+    button_frame.start_time = start_time
+
+def check_and_remove_button_frame(button_frame) :
+    if hasattr(button_frame, 'start_time') :
+        if (time.time() - button_frame.start_time) > 10 :
+            remove_button_frame(button_frame)
 
 def remove_button_frame(button_frame) :
     print(button_frame.hover)
