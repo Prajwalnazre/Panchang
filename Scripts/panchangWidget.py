@@ -173,14 +173,18 @@ def close_window() :
 #     root.lift()
     
 def main_label_enter(event, button_frame) :
+    button_frame.hover = False
     button_frame.grid(row=0, column=0, columnspan=2,  sticky="ew", padx=0, pady=0)
 
 def main_label_leave(event, button_frame) :
+    button_frame.hover = True
     delay = 10000
     root.after(delay, lambda: remove_button_frame(button_frame))
 
 def remove_button_frame(button_frame) :
-    button_frame.grid_remove()
+    print(button_frame.hover)
+    if button_frame.hover :
+        button_frame.grid_remove()
 
 def start_move_widget(event) :
     root.x = event.x
