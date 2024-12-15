@@ -131,6 +131,8 @@ def panchang_window(panchang_object) :
 
     main_label.bind("<Enter>", lambda event: main_label_enter(event, button_frame))
     main_label.bind("<Leave>", lambda event: main_label_leave(event, button_frame))
+    button_frame.bind("<Button-1>", start_move_widget)
+    button_frame.bind("<B1-Motion>", stop_move_widget)
 
     root.mainloop()
 
@@ -174,8 +176,17 @@ def main_label_enter(event, button_frame) :
     button_frame.grid(row=0, column=0, columnspan=2,  sticky="ew", padx=0, pady=0)
 
 def main_label_leave(event, button_frame) :
-    delay = 4000
+    delay = 10000
     root.after(delay, lambda: remove_button_frame(button_frame))
 
 def remove_button_frame(button_frame) :
     button_frame.grid_remove()
+
+def start_move_widget(event) :
+    root.x = event.x
+    root.y = event.y
+
+def stop_move_widget(event) :
+    x = event.x_root - root.x
+    y = event.y_root - root.y
+    root.geometry(f"+{x}+{y}")
