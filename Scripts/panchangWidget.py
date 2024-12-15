@@ -1,8 +1,35 @@
 '''
 Functions :
->> panchang_window(panchang_object)
+>> panchang_window()
 - Create UI using Tkinter
 - Used in main.py
+>> minimize_window()
+- Custom minimize functionality
+- Used within panchang_window() for minimize_button
+>> maximize_window()
+- Custom maximize functionality
+- Used within panchang_window() for maximize_button
+>> close_window()
+- Close the widget
+- Used within panchang_window() for close_button
+>> top_area_enter()
+- Handle mouse enter event when it enters the top area
+- Used within panchang_window() for binding main_label and button_frame with "<Enter>" event
+>> top_area_leave()
+- Handle mouse leave event when it enters the top area
+- Used within panchang_window() for binding main_label and button_frame with "<Leave>" event
+>> check_and_remove_button_frame()
+- Remove the button frame if conditions are met
+- Used within top_area_leave() to schedule the delayed action directly
+>> remove_button_frame()
+- Remove the customer button frame
+- Used within check_and_remove_button_frame() after checking if the delay has passed the 10 second mark
+>> start_move_widget()
+- Custom drag and drop function to start the change
+- Used within panchang_window() - binded to "<Button-1>" event
+>> stop_move_widget()
+- Custom drag and drop function to stop at final position
+- Used within panchang_window() - binded to "<B1-Motion>" event 
 '''
 
 import tkinter as tk
@@ -13,8 +40,10 @@ from PIL import ImageFont
 from PIL import Image, ImageTk
 import time
 
+# Initialize root window
 root = tk.Tk()
 
+# Disable window size changing functionality
 root.resizable(False, False)
 
 # Remove the default close button
@@ -34,6 +63,7 @@ minimize_icon_photo = ImageTk.PhotoImage(minimize_icon_image)
 maximize_icon_image = Image.open("../Assets/maximize_icon_compressed.png")
 maximize_icon_photo = ImageTk.PhotoImage(maximize_icon_image)
 
+# Create the Main Widget
 def panchang_window(panchang_object) :
     root.title("Panchang")
     root.configure(bg="#fdb563")
@@ -59,9 +89,10 @@ def panchang_window(panchang_object) :
 
     # Creating a Tkinter Frame for custom header that contains minimize, maximize and close buttons
     button_frame = tk.Frame(root, bg="#fdb563")
-    button_frame.grid(row=0, column=0, columnspan=2,  sticky="ew", padx=0, pady=0)
+    button_frame.grid(row=0, column=0, columnspan=2,  sticky="ew", padx=0, pady=0) # Adding Frame to Grid
     button_frame.grid_remove() # Hiding this frame as it is necessary only when the user hovers on Main Label
     
+    # Creating all the 3 buttons
     close_button = tk.Button(
         button_frame,
         image=x_icon_photo, 
@@ -84,64 +115,72 @@ def panchang_window(panchang_object) :
             maximize_button, 
             minimize_button
             ), 
-        # width=4, 
         bg="#fdb563", 
         bd=0, 
-        # height=2,
         highlightthickness=1,
-        # font='Helvectica'
         )
     maximize_button.pack(side=tk.RIGHT, padx=5)
-    maximize_button.pack_forget()
+    maximize_button.pack_forget() # Hiding this button during intialization - Appears only after being minimized
 
     minimize_button = tk.Button(
         button_frame, 
-        # text="-", 
         image=minimize_icon_photo,
-        command=lambda: minimize_window(main_label, maasa_label, thithi_label, paksha_label, day_of_the_month_label, maximize_button, minimize_button), 
-        # width=4, 
+        command=lambda: minimize_window(
+            main_label, 
+            maasa_label, 
+            thithi_label, 
+            paksha_label, 
+            day_of_the_month_label, 
+            maximize_button, 
+            minimize_button
+            ), 
         bg="#fdb563", 
         bd=0, 
-        # height=2,
         highlightthickness=1,
-        # font='Helvectica'
         )
     minimize_button.pack(side=tk.RIGHT, padx=5)
 
-    # close_button = ttk.Button(button_frame, text="x", command=close_window, width=4, style="Custom.TButton")
+    # Adding all the 5 created labels to Grid
     main_label.grid(row=1, columnspan=2, padx=10, pady=8, sticky="nsew")
     maasa_label.grid(row=2, column=0, padx=10, pady=5, sticky=tk.W)
     day_of_the_month_label.grid(row=2, column=1,padx=10, pady=5, sticky=tk.W)
     thithi_label.grid(row=3, column=0, padx=10, pady=5, sticky=tk.W)
     paksha_label.grid(row=3, column=1, padx=10, pady=5, sticky=tk.W)
 
+    # Grid Row configuration
     root.grid_rowconfigure(0, weight=0, minsize=5)
     root.grid_rowconfigure(1, weight=3)
     root.grid_rowconfigure(2, weight=3)
     root.grid_rowconfigure(3, weight=3)
 
+    # Grid Column configuration
     root.grid_columnconfigure(0, weight=1)
     root.grid_columnconfigure(1, weight=1)
 
-    # root.bind("<Unmap>", restore_window)
-
+    # Element binding for events :
+    # - Top layer (Main Label + Custom Header) events for mouse hover
     main_label.bind("<Enter>", lambda event: top_area_enter(event, button_frame))
     main_label.bind("<Leave>", lambda event: top_area_leave(event, button_frame))
     button_frame.bind("<Enter>", lambda event: top_area_enter(event, button_frame))
     button_frame.bind("<Leave>", lambda event: top_area_leave(event, button_frame))
+    
+    # - Custom drag and drop event
     button_frame.bind("<Button-1>", start_move_widget)
     button_frame.bind("<B1-Motion>", stop_move_widget)
 
+    # Initialization of the main widget
     root.mainloop()
 
-def minimize_window(main_label, maasa_label, thithi_label, paksha_label, day_of_the_month_label, maximize_button, minimize_button) :
-    print(minimize_button)
-    print(maximize_button)
-    # root.update_idletasks()
-    # root.overrideredirect(False)  # Temporarily disable override
-    # root.iconify()  # Minimize the window
-    # root.after(5, lambda: root.overrideredirect(True))  # Reapply override when restored
-    
+# Custom minimize functionality
+def minimize_window(
+        main_label, 
+        maasa_label, 
+        thithi_label, 
+        paksha_label, 
+        day_of_the_month_label, 
+        maximize_button, 
+        minimize_button
+        ) :  
     maasa_label.grid_remove()
     thithi_label.grid_remove()
     paksha_label.grid_remove()
@@ -151,7 +190,16 @@ def minimize_window(main_label, maasa_label, thithi_label, paksha_label, day_of_
     minimize_button.pack_forget()
     print("Called Mini")
 
-def maximize_window(main_label, maasa_label, thithi_label, paksha_label, day_of_the_month_label, maximize_button, minimize_button) :
+# Custom maximize functionality when in minimized state
+def maximize_window(
+        main_label, 
+        maasa_label, 
+        thithi_label, 
+        paksha_label, 
+        day_of_the_month_label, 
+        maximize_button, 
+        minimize_button
+        ) :
     main_label.grid(row=1, columnspan=2, padx=10, pady=8, sticky="nsew")
     maasa_label.grid(row=2, column=0, padx=10, pady=5, sticky=tk.W)
     day_of_the_month_label.grid(row=2, column=1,padx=10, pady=5, sticky=tk.W)
@@ -161,50 +209,56 @@ def maximize_window(main_label, maasa_label, thithi_label, paksha_label, day_of_
     maximize_button.pack_forget()
     print("Called Maxi")
 
+# Close the widget
 def close_window() :
     root.destroy()
 
-# def restore_window(event=None) :
-#     print("Taam")
-#     root.deiconify()
-#     root.overrideredirect(True)
-#     root.lift()
-    
+# Function to handle mouse enter event
 def top_area_enter(event, button_frame) :
-    button_frame.hover = False
-    button_frame.grid(row=0, column=0, columnspan=2,  sticky="ew", padx=0, pady=0)
-    if hasattr(button_frame, 'after_id') :
-        root.after_cancel(button_frame.after_id)
-
-def top_area_leave(event, button_frame) :
-    button_frame.hover = True
+    button_frame.hover = False # Hover Flag to check if the mouse is still on the area
+    button_frame.grid(row=0, column=0, columnspan=2,  sticky="ew", padx=0, pady=0) # Show the hidden custom header
     
+    # Cancel any existing root.after job
     if hasattr(button_frame, 'after_id') :
         root.after_cancel(button_frame.after_id)
 
-    delay = 10000
-    start_time = time.time()
-    print(start_time)
-    print("Leaving area")
+# Function to handle mouse leave event
+def top_area_leave(event, button_frame) :
+    button_frame.hover = True # Hide only if this flag is true
+    
+    # Cancel any existing root.after job
+    if hasattr(button_frame, 'after_id') :
+        root.after_cancel(button_frame.after_id)
 
+    delay = 10000 # 10 seconds delay in milliseconds
+    start_time = time.time() 
+
+    # Schedule the delayed action directly
     button_frame.after_id = root.after(delay, lambda : check_and_remove_button_frame(button_frame))
-
+    
+    # Storing the start time in the frame for comparison later
     button_frame.start_time = start_time
 
+# Function to remove the button frame if conditions are met
 def check_and_remove_button_frame(button_frame) :
     if hasattr(button_frame, 'start_time') :
-        if (time.time() - button_frame.start_time) > 10 :
+        
+        # Check if the delay has actually passed
+        if (time.time() - button_frame.start_time) > 10 : 
             remove_button_frame(button_frame)
 
+# Function to remove the button frame
 def remove_button_frame(button_frame) :
-    print(button_frame.hover)
     if button_frame.hover :
         button_frame.grid_remove()
 
+# Custom drag and drop functions
+# Start
 def start_move_widget(event) :
     root.x = event.x
     root.y = event.y
 
+# Final position
 def stop_move_widget(event) :
     x = event.x_root - root.x
     y = event.y_root - root.y
