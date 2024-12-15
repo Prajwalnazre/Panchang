@@ -35,4 +35,4 @@ Stay Tuned !!
 5. Run the project :
 
    ```bash
-   python main.py
+   python Scripts/main.py
