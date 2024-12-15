@@ -13,45 +13,36 @@ from PIL import ImageFont
 from PIL import Image, ImageTk
 
 root = tk.Tk()
-# root.geometry('300x200')
+
 root.resizable(False, False)
 
 # Remove the default close button
 root.overrideredirect(True) 
 
-today = date.today()
+# Importing Akasha font
 akasha_font_path = 'AkashaRegular-Rprn6.ttf'
 akasha_font_pil_font = ImageFont.truetype(akasha_font_path, size=17)
 akasha_font = Font(family=akasha_font_pil_font.font.family, size=17)
 
-final_font = akasha_font
 
-# close_icon = tk.PhotoImage(file='./Assets/x_icon_2.png')
-# minimize_icon = tk.PhotoImage(file='./Assets/minimize_icon_background.png')
-
-# frame = tk.Frame(root)
-# frame.pack(pady=20)
-
+# Importing custom icons for close, minimize and maximize functionality
 x_icon_image = Image.open("../Assets/x_icon_compressed.png")
 x_icon_photo = ImageTk.PhotoImage(x_icon_image)
-
 minimize_icon_image = Image.open("../Assets/minimize_icon_compressed.png")
 minimize_icon_photo = ImageTk.PhotoImage(minimize_icon_image)
-
 maximize_icon_image = Image.open("../Assets/maximize_icon_compressed.png")
 maximize_icon_photo = ImageTk.PhotoImage(maximize_icon_image)
 
 def panchang_window(panchang_object) :
     root.title("Panchang")
-    # root.overrideredirect(True)
-    # root.wm_attributes("-topmost", True)
     root.configure(bg="#fdb563")
-    today_upper_case = str(today.strftime('%B %d, %Y'))
-    # print(akasha_font)   
 
-    main_label = tk.Label(root, bg = "lightyellow", text=f"TODAY - {today_upper_case.upper()}", font=final_font)
-    
-    panchang_object.printPanchangInfo()
+    # Main Label contains the current date
+    today = date.today()
+    today_upper_case = str(today.strftime('%B %d, %Y'))
+    main_label = tk.Label(root, bg = "lightyellow", text=f"TODAY - {today_upper_case.upper()}", font=akasha_font)
+
+    # Information display strings
     label_texts = [
         f"MAASA : {panchang_object.maasa}",
         f"THITHI : {panchang_object.thithi}",
@@ -59,20 +50,19 @@ def panchang_window(panchang_object) :
         f"DAY OF THE MONTH : {panchang_object.dayOfMonth}"
     ]
 
-    maasa_label = tk.Label(root, text = label_texts[0], bg="#fdb563", font=final_font)
-    thithi_label = tk.Label(root, text=label_texts[1], bg="#fdb563", font=final_font)
-    paksha_label = tk.Label(root, text=label_texts[2], bg="#fdb563", font=final_font)
-    day_of_the_month_label = tk.Label(root, text=label_texts[3], bg="#fdb563", font=final_font)
+    # Information Labels creation
+    maasa_label = tk.Label(root, text = label_texts[0], bg="#fdb563", font=akasha_font)
+    thithi_label = tk.Label(root, text=label_texts[1], bg="#fdb563", font=akasha_font)
+    paksha_label = tk.Label(root, text=label_texts[2], bg="#fdb563", font=akasha_font)
+    day_of_the_month_label = tk.Label(root, text=label_texts[3], bg="#fdb563", font=akasha_font)
 
+    # Creating a Tkinter Frame for custom header that contains minimize, maximize and close buttons
     button_frame = tk.Frame(root, bg="#fdb563")
     button_frame.grid(row=0, column=0, columnspan=2,  sticky="ew", padx=0, pady=0)
-    button_frame.grid_remove()
-    # minimize_button = ttk.Button(button_frame, text="_", command=minimize_window, width=4, style="Custom.TButton")
+    button_frame.grid_remove() # Hiding this frame as it is necessary only when the user hovers on Main Label
     
     close_button = tk.Button(
         button_frame,
-        # height=2,
-        # text="x",
         image=x_icon_photo, 
         command=close_window, 
         # width=4, 
@@ -131,6 +121,8 @@ def panchang_window(panchang_object) :
 
     main_label.bind("<Enter>", lambda event: main_label_enter(event, button_frame))
     main_label.bind("<Leave>", lambda event: main_label_leave(event, button_frame))
+    button_frame.bind("<Enter>", lambda event: main_label_enter(event, button_frame))
+    button_frame.bind("<Leave>", lambda event: main_label_leave(event, button_frame))
     button_frame.bind("<Button-1>", start_move_widget)
     button_frame.bind("<B1-Motion>", stop_move_widget)
 
