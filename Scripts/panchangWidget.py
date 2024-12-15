@@ -17,7 +17,7 @@ root = tk.Tk()
 root.resizable(False, False)
 
 # Remove the default close button
-root.overrideredirect(False) 
+root.overrideredirect(True) 
 
 today = date.today()
 akasha_font_path = 'AkashaRegular-Rprn6.ttf'
@@ -44,7 +44,21 @@ def panchang_window(panchang_object) :
     # root.wm_attributes("-topmost", True)
     root.configure(bg="#fdb563")
     today_upper_case = str(today.strftime('%B %d, %Y'))
-    # print(akasha_font)
+    # print(akasha_font)   
+
+    main_label = tk.Label(root, bg = "lightyellow", text=f"TODAY - {today_upper_case.upper()}", font=final_font)
+    panchang_object.printPanchangInfo()
+    label_texts = [
+        f"MAASA : {panchang_object.maasa}",
+        f"THITHI : {panchang_object.thithi}",
+        f"PAKSHA : {panchang_object.paksha}",
+        f"DAY OF THE MONTH : {panchang_object.dayOfMonth}"
+    ]
+
+    maasa_label = tk.Label(root, text = label_texts[0], bg="#fdb563", font=final_font)
+    thithi_label = tk.Label(root, text=label_texts[1], bg="#fdb563", font=final_font)
+    paksha_label = tk.Label(root, text=label_texts[2], bg="#fdb563", font=final_font)
+    day_of_the_month_label = tk.Label(root, text=label_texts[3], bg="#fdb563", font=final_font)
 
     button_frame = tk.Frame(root, bg="#fdb563")
     button_frame.grid(row=0, column=0, columnspan=2,  sticky="ew", padx=0, pady=0)
@@ -69,7 +83,7 @@ def panchang_window(panchang_object) :
         button_frame, 
         # text="-", 
         image=minimize_icon_photo,
-        command=minimize_window, 
+        command=lambda: minimize_window(main_label, maasa_label, thithi_label, paksha_label, day_of_the_month_label), 
         # width=4, 
         bg="#fdb563", 
         bd=0, 
@@ -80,24 +94,7 @@ def panchang_window(panchang_object) :
     minimize_button.pack(side=tk.RIGHT, padx=5)
 
     # close_button = ttk.Button(button_frame, text="x", command=close_window, width=4, style="Custom.TButton")
-    
-    
-
-    main_label = tk.Label(root, bg = "lightyellow", text=f"TODAY - {today_upper_case.upper()}", font=final_font)
     main_label.grid(row=1, columnspan=2, padx=10, pady=8, sticky="nsew")
-    panchang_object.printPanchangInfo()
-    label_texts = [
-        f"MAASA : {panchang_object.maasa}",
-        f"THITHI : {panchang_object.thithi}",
-        f"PAKSHA : {panchang_object.paksha}",
-        f"DAY OF THE MONTH : {panchang_object.dayOfMonth}"
-    ]
-
-    maasa_label = tk.Label(root, text = label_texts[0], bg="#fdb563", font=final_font)
-    thithi_label = tk.Label(root, text=label_texts[1], bg="#fdb563", font=final_font)
-    paksha_label = tk.Label(root, text=label_texts[2], bg="#fdb563", font=final_font)
-    day_of_the_month_label = tk.Label(root, text=label_texts[3], bg="#fdb563", font=final_font)
-
     maasa_label.grid(row=2, column=0, padx=10, pady=5, sticky=tk.W)
     day_of_the_month_label.grid(row=2, column=1,padx=10, pady=5, sticky=tk.W)
     thithi_label.grid(row=3, column=0, padx=10, pady=5, sticky=tk.W)
@@ -111,10 +108,27 @@ def panchang_window(panchang_object) :
     root.grid_columnconfigure(0, weight=1)
     root.grid_columnconfigure(1, weight=1)
 
+    # root.bind("<Unmap>", restore_window)
     root.mainloop()
 
-def minimize_window() :
-    root.iconify()
+def minimize_window(main_label, maasa_label, thithi_label, paksha_label, day_of_the_month_label) :
+    # root.update_idletasks()
+    # root.overrideredirect(False)  # Temporarily disable override
+    # root.iconify()  # Minimize the window
+    # root.after(5, lambda: root.overrideredirect(True))  # Reapply override when restored
+    
+    maasa_label.grid_remove()
+    thithi_label.grid_remove()
+    paksha_label.grid_remove()
+    day_of_the_month_label.grid_remove()
+    main_label.grid_remove()
+    print("Called")
 
 def close_window() :
     root.destroy()
+
+# def restore_window(event=None) :
+#     print("Taam")
+#     root.deiconify()
+#     root.overrideredirect(True)
+#     root.lift()
