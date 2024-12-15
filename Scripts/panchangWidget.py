@@ -38,6 +38,9 @@ x_icon_photo = ImageTk.PhotoImage(x_icon_image)
 minimize_icon_image = Image.open("../Assets/minimize_icon_compressed.png")
 minimize_icon_photo = ImageTk.PhotoImage(minimize_icon_image)
 
+maximize_icon_image = Image.open("../Assets/maximize_icon_compressed.png")
+maximize_icon_photo = ImageTk.PhotoImage(maximize_icon_image)
+
 def panchang_window(panchang_object) :
     root.title("Panchang")
     # root.overrideredirect(True)
@@ -79,11 +82,26 @@ def panchang_window(panchang_object) :
         )
     close_button.pack(side=tk.RIGHT, padx=5)
 
+    maximize_button = tk.Button(
+        button_frame, 
+        # text="-", 
+        image=maximize_icon_photo,
+        command=lambda: maximize_window(main_label, maasa_label, thithi_label, paksha_label, day_of_the_month_label, maximize_button, minimize_button), 
+        # width=4, 
+        bg="#fdb563", 
+        bd=0, 
+        # height=2,
+        highlightthickness=1,
+        # font='Helvectica'
+        )
+    maximize_button.pack(side=tk.RIGHT, padx=5)
+    maximize_button.pack_forget()
+
     minimize_button = tk.Button(
         button_frame, 
         # text="-", 
         image=minimize_icon_photo,
-        command=lambda: minimize_window(main_label, maasa_label, thithi_label, paksha_label, day_of_the_month_label), 
+        command=lambda: minimize_window(main_label, maasa_label, thithi_label, paksha_label, day_of_the_month_label, maximize_button, minimize_button), 
         # width=4, 
         bg="#fdb563", 
         bd=0, 
@@ -111,7 +129,9 @@ def panchang_window(panchang_object) :
     # root.bind("<Unmap>", restore_window)
     root.mainloop()
 
-def minimize_window(main_label, maasa_label, thithi_label, paksha_label, day_of_the_month_label) :
+def minimize_window(main_label, maasa_label, thithi_label, paksha_label, day_of_the_month_label, maximize_button, minimize_button) :
+    print(minimize_button)
+    print(maximize_button)
     # root.update_idletasks()
     # root.overrideredirect(False)  # Temporarily disable override
     # root.iconify()  # Minimize the window
@@ -122,7 +142,19 @@ def minimize_window(main_label, maasa_label, thithi_label, paksha_label, day_of_
     paksha_label.grid_remove()
     day_of_the_month_label.grid_remove()
     main_label.grid_remove()
-    print("Called")
+    maximize_button.pack(side=tk.RIGHT, padx=5)
+    minimize_button.pack_forget()
+    print("Called Mini")
+
+def maximize_window(main_label, maasa_label, thithi_label, paksha_label, day_of_the_month_label, maximize_button, minimize_button) :
+    main_label.grid(row=1, columnspan=2, padx=10, pady=8, sticky="nsew")
+    maasa_label.grid(row=2, column=0, padx=10, pady=5, sticky=tk.W)
+    day_of_the_month_label.grid(row=2, column=1,padx=10, pady=5, sticky=tk.W)
+    thithi_label.grid(row=3, column=0, padx=10, pady=5, sticky=tk.W)
+    paksha_label.grid(row=3, column=1, padx=10, pady=5, sticky=tk.W)
+    minimize_button.pack(side=tk.RIGHT, padx=5)
+    maximize_button.pack_forget()
+    print("Called Maxi")
 
 def close_window() :
     root.destroy()
