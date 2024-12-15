@@ -50,6 +50,7 @@ def panchang_window(panchang_object) :
     # print(akasha_font)   
 
     main_label = tk.Label(root, bg = "lightyellow", text=f"TODAY - {today_upper_case.upper()}", font=final_font)
+    
     panchang_object.printPanchangInfo()
     label_texts = [
         f"MAASA : {panchang_object.maasa}",
@@ -65,7 +66,7 @@ def panchang_window(panchang_object) :
 
     button_frame = tk.Frame(root, bg="#fdb563")
     button_frame.grid(row=0, column=0, columnspan=2,  sticky="ew", padx=0, pady=0)
-
+    button_frame.grid_remove()
     # minimize_button = ttk.Button(button_frame, text="_", command=minimize_window, width=4, style="Custom.TButton")
     
     close_button = tk.Button(
@@ -127,6 +128,10 @@ def panchang_window(panchang_object) :
     root.grid_columnconfigure(1, weight=1)
 
     # root.bind("<Unmap>", restore_window)
+
+    main_label.bind("<Enter>", lambda event: main_label_enter(event, button_frame))
+    main_label.bind("<Leave>", lambda event: main_label_leave(event, button_frame))
+
     root.mainloop()
 
 def minimize_window(main_label, maasa_label, thithi_label, paksha_label, day_of_the_month_label, maximize_button, minimize_button) :
@@ -164,3 +169,13 @@ def close_window() :
 #     root.deiconify()
 #     root.overrideredirect(True)
 #     root.lift()
+    
+def main_label_enter(event, button_frame) :
+    button_frame.grid(row=0, column=0, columnspan=2,  sticky="ew", padx=0, pady=0)
+
+def main_label_leave(event, button_frame) :
+    delay = 4000
+    root.after(delay, lambda: remove_button_frame(button_frame))
+
+def remove_button_frame(button_frame) :
+    button_frame.grid_remove()
