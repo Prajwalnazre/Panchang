@@ -3,6 +3,8 @@ Functions :
 >> info_extract(maasa, thithi) 
 - Extract the thithi information from HTML content and return the panchang object
 - Function used in main.py
+
+This file is temporary - will stay until the native logic is completed
 '''
 
 from panchangClass import PanchangObject
@@ -12,9 +14,6 @@ def info_extract(maasa, thithi) :
     comma_index = maasa.index(",")
     maasa_string = maasa[comma_index+2:]
     day_of_month_string = maasa[:comma_index]
-    # print(maasa_string)
-    # print(day_of_month_string)
-    
     pakshas = ['krishna', 'shukla']
     thithis = [
         'amavasya',
@@ -36,16 +35,12 @@ def info_extract(maasa, thithi) :
     ]
 
     for p in pakshas :
-        # print(p)
         if p in str(thithi) :
-            # print(p)
             paksha_string = p
-            # print(paksha_string)
 
     for t in thithis :
         if t in str(thithi) :
             thithi_string = t
-            # print(thithi_string)
 
     panchang_var = PanchangObject(thithi_string.upper(), maasa_string.upper(), day_of_month_string.upper(), paksha_string.upper())
 
