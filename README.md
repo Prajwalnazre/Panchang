@@ -2,9 +2,7 @@
 
 A widget to display Thithi everyday. 
 
-Project is currently designed with "Jugaad".
-
-Stay Tuned !!
+A lot of features are yet to come.
 
 ## Setup
 
